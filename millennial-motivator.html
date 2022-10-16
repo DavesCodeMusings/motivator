@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Millennial Motivator</title>
+  <style>
+    body {
+      background-color: black;
+      color: whitesmoke;
+      overflow: hidden;
+    }
+
+    p {
+      margin-top: 40vh;
+      text-align: center;
+      /* transform: scale(-1, 1);  /* Uncomment to reverse text for rear projection. */
+    }
+
+    #motivationalMessage {
+      display: inline-block;
+      font-size: 1vh;
+      opacity: 1;
+      transition: transform 4s ease-in, opacity 4s ease-in-out;
+    }
+
+    #motivationalMessage.zoom {
+      opacity: 0;
+      transform: scale(100);
+    }
+  </style>
+  <script>
+    class Motivator {
+      index = 0
+      isZoomed = false
+
+      constructor(msgList, elementID) {
+        this.msgList = msgList
+        this.elementID = elementID
+        self = this  // Save 'this' as 'self' because 'this' changes when it's in an event handler like setInterval
+        console.debug(self)
+      }
+
+      motivate() {
+        console.debug(self)
+        let messageElement = document.getElementById('motivationalMessage')
+        if (self.isZoomed == false) {
+          let msg = self.msgList[self.index]
+          console.debug(`Displaying: ${msg}`)
+          messageElement.innerHTML = msg
+          messageElement.classList.add('zoom')
+          self.isZoomed = true
+          self.index++
+          if (self.index == self.msgList.length) {
+            self.index = 0
+          }
+        }
+        else {
+          messageElement.classList.remove('zoom')
+          messageElement.innerHTML = ''
+          self.isZoomed = false
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <p><span id="motivationalMessage"></span></p>
+  <script>
+    const BPM = 120
+    const pithyWisdom = [
+      'Halloween Rave 2022',
+      'Always REMEMBER',
+      'YOU are loved',
+      'YOU are enough',
+      'YOU got this!',
+      'Halloween Rave 2022',
+      'WE are all ONE people',
+      'Love is LOVE',
+      'KINDNESS is everything',
+      'BE the change',
+      'Halloween Rave 2022',
+      'NEVER gonna give you up',
+      'NEVER gonna let you down'
+    ]
+    const motivator = new Motivator(pithyWisdom, 'motivationalMessage', BPM)
+    setInterval(motivator.motivate, Math.round(BPM * 2000 / 60))
+  </script>
+</body>
+
+</html>
